@@ -11,17 +11,24 @@ void printSol(int sol[N][N]){
 	}
 }
 bool isSafe(int x,int y,int maze[N][N]){
-	return (x>=0 && x<N && y>=0 && y<N && maze[x][y]==0);
+	 if(x>=0 && x<N && y>=0 && y<N && maze[x][y]==1)
+		return true;
+	return false;
 }
 bool solveMazeUtil(int x,int y,int maze[N][N],int sol[N][N]){
-	if(x==N-1 && y==N-1)
+	
+	if(x==N-1 && y==N-1){
 		sol[x][y]=1;
-	if(isSafe(x,y,maze)){
-		sol[x][y]=1;
-		if(solveMazeUtil(x+1,y,maze,sol)==true)
+		return true;
+	}
+	if(isSafe(x,y,maze)==true){
+		sol[x][y]=1;	
+		if(solveMazeUtil(x+1,y,maze,sol)==true){
 			return true;
-		if(solveMazeUtil(x,y+1,maze,sol)==true)
+		}
+		if(solveMazeUtil(x,y+1,maze,sol)==true){
 			return true;
+		}
 		sol[x][y]=0;
 		return false;
 	}
@@ -34,8 +41,9 @@ bool solveMaze(int maze[N][N]){
 			 { 0,0,0,0},
 			 { 0,0,0,0}
 			};
-	if(solveMazeUtil(0,0,maze,sol)==false){
-	
+	solveMazeUtil(0,0,maze,sol);
+	if(solveMazeUtil(0,0,maze,sol)==false){	
+			
 		printf("solution doesn't exist\n");
 		return false;
 	}
@@ -43,11 +51,12 @@ bool solveMaze(int maze[N][N]){
 	return true;
 }
 int main(){
-	int maze[N][N] ={ { 1,1,0,0},
-			  { 0,1,1,0},
-			  { 1,0,1,0},
+	int maze[N][N] ={ { 1,0,0,0},
+			  { 1,1,0,1},
+			  { 0,1,0,0},
 			  { 1,1,1,1}
 			};
+//	printSol(maze);	
 	bool x;
 	x=solveMaze(maze);
 	return 0;
